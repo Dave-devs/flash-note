@@ -1,59 +1,46 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
-
+import { Tabs } from 'expo-router';
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { AntDesign, Entypo, Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View } from 'react-native';
+import { defaultStyles } from '@/constants/Styles';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
+    <Tabs screenOptions={{
+      headerShown: false,
+      tabBarActiveTintColor: Colors.primary,
+      tabBarInactiveTintColor: Colors.grey,
+      tabBarLabelStyle: {
+        fontFamily: 'open-sans-medium',
+        fontSize: 10,
+        fontWeight: 'bold'
+      }
+    }}>
+      <Tabs.Screen 
+      name='home' 
+      options={{
+        tabBarLabel: 'Note',
+        tabBarIcon: ({color, size}) => <Feather name="home" size={size} color={color} />
+      }}/>
+      <Tabs.Screen 
+      name='calendar' 
+      options={{
+        tabBarLabel: 'Calendar', 
+        tabBarIcon: ({ color, size }) => <Feather name="calendar" size={size} color={color} />
+      }}/>
+      <Tabs.Screen 
+      name='guide' 
+      options={{
+        tabBarLabel: 'Guide',  
+        tabBarIcon: ({ color, size }) => <AntDesign name="find" size={size} color={color} />
+      }}/>
+      <Tabs.Screen 
+      name='more' 
+      options={{
+        tabBarLabel: 'Favourite',  
+        tabBarIcon: ({ color, size }) => <Entypo name="dots-three-horizontal" size={size} color={color} />
+      }}/>
     </Tabs>
   );
 }
